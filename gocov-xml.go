@@ -19,6 +19,7 @@ type Coverage struct {
 	BranchRate float32   `xml:"branch-rate,attr"`
 	Version    string    `xml:"version,attr"`
 	Timestamp  int64     `xml:"timestamp,attr"`
+	Sources    []string  `xml:"sources>source"` // add by linlt
 	Packages   []Package `xml:"packages>package"`
 }
 
@@ -129,7 +130,8 @@ func main() {
 		packages[i] = p
 	}
 
-	coverage := Coverage{Packages: packages, Timestamp: time.Now().UnixNano() / int64(time.Millisecond)}
+	coverage := Coverage{Sources: []string{"/"}, Packages: packages,
+		Timestamp: time.Now().UnixNano() / int64(time.Millisecond)}
 
 	fmt.Printf(xml.Header)
 	fmt.Printf("<!DOCTYPE coverage SYSTEM \"http://cobertura.sourceforge.net/xml/coverage-03.dtd\">\n")
